@@ -1,5 +1,5 @@
 # .bashrc
-#lucas colors (also used in bash-git-prompt)
+#Lucas colors (also used in bash-git-prompt)
 black="\[\e[0;30m\]"
 darkgray="\[\e[1;30m\]"
 red="\[\e[0;31m\]"
@@ -20,6 +20,7 @@ normal="\[\e[0;00m\]"
 orange="\[\e[38;5;166m\]"
 lightmagenta="\[\e[38;5;95m\]"
 
+# Normal prompt config (overriden by bash-git-prompt when in git repos)
 PS1="${green}[\u@\h \W] \$${normal} "
 
 
@@ -32,27 +33,29 @@ fi
 # export SYSTEMD_PAGER=
 
 # User specific aliases and functions
-## Publican and brew
+
+alias ffs='sudo "$BASH" -c "$(history -p !!)"'
+
+# Publican and brew aliases
 alias brewstart="rhpkg publican-build --lang en-US"
 alias cspbuild="csprocessor build"
 alias pubbuild="publican build --langs en-US --formats html-single"
-alias ffs='sudo "$BASH" -c "$(history -p !!)"'
 
 # CCS repo tools
-## eg: ggrep infinispan
+## Easy grep to exclude build folters. e.g.: ggrep infinispan
 ggrep () { grep "$@" -iR --exclude-dir={build,html}; }
 ## Opens a build file
 alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
 
 # Git
-## Git shortcuts
+## Git aliases
 alias g='git'
+alias gs='git status'
 alias ga='git add'
 alias gfu='git fetch upstream'
 alias gr='git rebase upstream/master'
 alias gpom='git push origin master'
 alias gc='git checkout'
-alias gs='git status'
 alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias gd='git diff'
 alias gnewbranch='git checkout -b'
@@ -63,22 +66,23 @@ alias gcomma='git commit -a'
 alias grmbranch='git branch -d'
 alias gbranches='git branch -a'
 alias gpoh='git push origin HEAD'
-# This deletes local branches that have been merged and deleted from origin
+### This deletes local branches that have been merged and deleted from origin
 alias gclean="git remote prune origin; git branch --merged master | grep -v 'master$' | xargs git branch -d"
 alias gdryclean="git remote prune origin --dry-run; git branch --merged master | grep -v 'master$'"
-# Run a fetch + rebase + push for master
+### Sync local and origin master from upstream: runs a fetch + rebase + push
 alias gsync='echo "===== 1/3: fetching upstream =====" \
 && gfu \
 && echo "===== 2/3: rebasing master =====" \
 && gr \
 && echo "===== 3/3: pushing to origin =====" \
 && gpom'
-# Function to take git interactive rebase argument
+
+## Function to take git interactive rebase argument. e.g.: gir 2
 gri() { git rebase -i HEAD~$1; }
 gir() { git rebase -i HEAD~$1; }
 
 
-# Git branch bash completion
+## git bash completion for aliases
 # To Setup:
 # 1) Save the .git-completion.bash file found here:
 #    https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
@@ -98,17 +102,12 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
   __git_complete gd _git_diff
 fi
 
-# gitprompt configuration https://github.com/magicmonty/bash-git-prompt
+## Custom git prompt configuration https://github.com/magicmonty/bash-git-prompt
    # Set config variables first
    GIT_PROMPT_ONLY_IN_REPO=1
 
    # GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
 
-   # GIT_PROMPT_START=...    # uncomment for custom prompt start sequence
-   # GIT_PROMPT_END=...      # uncomment for custom prompt end sequence
-
    # as last entry source the gitprompt script
-   # GIT_PROMPT_THEME=Custom # use custom .git-prompt-colors.sh
-   #GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
    GIT_PROMPT_THEME=Single_line_Lucas # use custom .git-prompt-colors.sh
 source ~/bashscripts/bash-git-prompt/gitprompt.sh
