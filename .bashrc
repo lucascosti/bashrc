@@ -51,6 +51,8 @@ alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
 ## Git aliases
 alias g='git'
 alias gs='git status'
+alias gss='git stash save'
+alias gsp='git stash pop'
 alias ga='git add'
 alias gfu='git fetch upstream'
 alias gr='git rebase upstream/master'
