@@ -23,6 +23,9 @@ lightmagenta="\[\e[38;5;95m\]"
 # Normal prompt config (overriden by bash-git-prompt when in git repos)
 PS1="${green}[\u@\h \W] \$${normal} "
 
+# for root, make it red (put this in /root/.bashrc):
+# PS1="${red}[\u@\h \W]#${normal} "
+
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -42,7 +45,7 @@ alias cspbuild="csprocessor build"
 alias pubbuild="publican build --langs en-US --formats html-single"
 
 # CCS repo tools
-## Easy grep to exclude build folters. e.g.: ggrep infinispan
+## Easy grep to exclude build folders. e.g.: ggrep infinispan
 ggrep () { grep "$@" -iR --exclude-dir={build,html}; }
 ## Opens a build file
 alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
@@ -92,7 +95,7 @@ gir() { git rebase -i HEAD~$1; }
 if [ -f ~/bashscripts/git-completion.bash ]; then
   . ~/bashscripts/git-completion.bash
   
-  # Add git completion to aliases
+  # Add git completion to the aliases: you must manually match each of your aliases to the respective method for the git command defined in git-completion.bash.
   __git_complete g __git_main
   __git_complete gc _git_checkout
   __git_complete gnb _git_checkout
