@@ -37,7 +37,7 @@ fi
 
 # User specific aliases and functions
 
-alias ffs='sudo "$BASH" -c "$(history -p !!)"'
+alias ffs='sudo !!'
 
 # Publican and brew aliases
 alias brewstart="rhpkg publican-build --lang en-US"
