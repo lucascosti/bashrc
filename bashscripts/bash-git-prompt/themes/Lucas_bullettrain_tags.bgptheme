@@ -1,0 +1,104 @@
+# This is Lucas' take on a bullet-train style bash-git-prompt.sh theme.
+# IMPORTANT: This theme requires a Powerline patched font. You can get them from here: https://github.com/powerline/fonts.
+# I call this theme 'Bullet Train with tags', because there are separate sections that look like 'tags'. (Some sections are separate because it was too difficult to join sections that are not permanent (e.g. the git part) and have proper colouring apply to the arrows joining them).
+# The original Bullet Train oh-my-zsh shell theme that inspired this is here: https://github.com/caiogondim/bullet-train-oh-my-zsh-theme.
+
+override_git_prompt_colors() {
+  GIT_PROMPT_THEME_NAME="Lucas_bullettrain_tags"
+
+  # TEMPLATE STUFF
+
+  # Time12a="\$(date +%H:%M)"
+  # PathShort="\w";
+
+  ## These are the color definitions used by gitprompt.sh
+  # GIT_PROMPT_PREFIX="["                 # start of the git info string
+  # GIT_PROMPT_SUFFIX="]"                 # the end of the git info string
+  # GIT_PROMPT_SEPARATOR="|"              # separates each item
+
+  # GIT_PROMPT_BRANCH="${Magenta}"        # the git branch that is active in the current directory
+  # GIT_PROMPT_STAGED="${Red}●"           # the number of staged files/directories
+  # GIT_PROMPT_CONFLICTS="${Red}✖ "       # the number of files in conflict
+  # GIT_PROMPT_CHANGED="${Blue}✚ "        # the number of changed files
+
+  # GIT_PROMPT_REMOTE=" "                 # the remote branch name (if any) and the symbols for ahead and behind
+  # GIT_PROMPT_UNTRACKED="${Cyan}…"       # the number of untracked files/dirs
+  # GIT_PROMPT_STASHED="${BoldBlue}⚑ "    # the number of stashed files/dir
+  # GIT_PROMPT_CLEAN="${BoldGreen}✔"      # a colored flag indicating a "clean" repo
+
+  ## For the command indicator, the placeholder _LAST_COMMAND_STATE_ 
+  ## will be replaced with the exit code of the last command
+  ## e.g.
+  ## GIT_PROMPT_COMMAND_OK="${Green}✔-_LAST_COMMAND_STATE_ "    # indicator if the last command returned with an exit code of 0
+  ## GIT_PROMPT_COMMAND_FAIL="${Red}✘-_LAST_COMMAND_STATE_ "    # indicator if the last command returned with an exit code of other than 0
+
+  # GIT_PROMPT_COMMAND_OK="${Green}✔"    # indicator if the last command returned with an exit code of 0
+  # GIT_PROMPT_COMMAND_FAIL="${Red}✘-_LAST_COMMAND_STATE_"    # indicator if the last command returned with an exit code of other than 0
+
+  ## template for displaying the current virtual environment
+  ## use the placeholder _VIRTUALENV_ will be replaced with 
+  ## the name of the current virtual environment (currently CONDA and VIRTUAL_ENV)
+  # GIT_PROMPT_VIRTUALENV="(${Blue}_VIRTUALENV_${ResetColor}) "
+  
+  ## _LAST_COMMAND_INDICATOR_ will be replaced by the appropriate GIT_PROMPT_COMMAND_OK OR GIT_PROMPT_COMMAND_FAIL
+  # GIT_PROMPT_START_USER="_LAST_COMMAND_INDICATOR_ ${Yellow}${PathShort}${ResetColor}"
+  # GIT_PROMPT_START_ROOT="_LAST_COMMAND_INDICATOR_ ${GIT_PROMPT_START_USER}"
+  # GIT_PROMPT_END_USER=" \n${White}${Time12a}${ResetColor} $ "
+  # GIT_PROMPT_END_ROOT=" \n${White}${Time12a}${ResetColor} # "
+  
+  # LUCAS BELOW
+      # For Powerline characters see: echo -e "\ue0a0\ue0a1\ue0a2\ue0b0\ue0b1\ue0b2\ue0b3"
+      # Powerline font downloads: https://github.com/powerline/fonts
+      PWRLN_SEP=$'\ue0b0'
+      PWRLN_BRA=$'\ue0a0'
+      
+      INVERT_COLOR=$'\e[7m'
+      
+      # INVERTED BG COLOR OF TERMINAL: (i.e. as foreground color) change as needed
+      # for terminator (not compatible with RGB colors): TERM_COLOR=$'\e[38;5;235m'
+      TERM_COLOR=$'\e[38;2;40;44;52m' # 40;44;52 corresponds to RGB values of hex color #282C34
+      
+      # Time part
+      LUCAS_PROMPTSTART="${bg_lgray}${black} \$(date +%H:%M) ${lightgray}${bg_blue}${PWRLN_SEP}"
+      
+      # Hide last command if successful, red tag if command failed
+      GIT_PROMPT_COMMAND_OK=""
+      GIT_PROMPT_COMMAND_FAIL="${bg_red}${white} ✘ ${red}${bg_lgray}${PWRLN_SEP}"
+      
+      # Directory part
+      LUCAS_DIR="${bg_blue}${white} \w ${ResetColor}${blue}${PWRLN_SEP}"
+      
+      # Git part
+      GIT_PROMPT_PREFIX="${bg_magenta}${white} ${PWRLN_BRA} "
+      GIT_PROMPT_BRANCH="${bg_magenta}${white}"
+      GIT_PROMPT_SEPARATOR="${bg_magenta} "
+      ## Clean
+      GIT_PROMPT_CLEAN="${bg_green}${white} ✔${green}"
+      ## Dirty
+      GIT_PROMPT_CHANGED="${bg_yellow} ${maroon}✚"      # the number of changed files
+      GIT_PROMPT_STAGED="${bg_yellow} ${brightblue}●"   # the number of staged files/directories
+      GIT_PROMPT_CONFLICTS="${bg_yellow} ${Red}✖"       # the number of files in conflict
+      GIT_PROMPT_UNTRACKED="${bg_yellow} ${red}…"       # the number of untracked files/dirs
+      GIT_PROMPT_STASHED="${bg_yellow} ${stashblue}⚑"   # the number of stashed files/dir
+      ## Suffix (end the tag. Need the background color here because we're not sure what the foreground will be)
+      GIT_PROMPT_SUFFIX=" ${INVERT_COLOR}${TERM_COLOR}${PWRLN_SEP}${ResetColor}"
+      
+      # MAIN SECTION
+      GIT_PROMPT_START_USER="\n_LAST_COMMAND_INDICATOR_${LUCAS_PROMPTSTART}${LUCAS_DIR}${ResetColor}"
+      GIT_PROMPT_END_USER="\n${lightgreen}$ ${ResetColor}"
+      
+      # Stuff for root
+      GIT_PROMPT_START_ROOT="\n${bg_black}${red} root ${black}${bg_normal}${PWRLN_SEP} ${GIT_PROMPT_START_USER#'\n'}"
+      GIT_PROMPT_END_ROOT="\n${red}# ${ResetColor}"
+      
+      # Override reset color so the script doesn't do weird things
+      ResetColor=""
+      
+  ## Please do not add colors to these symbols
+  # GIT_PROMPT_SYMBOLS_AHEAD="↑·"             # The symbol for "n versions ahead of origin"
+  # GIT_PROMPT_SYMBOLS_BEHIND="↓·"            # The symbol for "n versions behind of origin"
+  # GIT_PROMPT_SYMBOLS_PREHASH=":"            # Written before hash of commit, if no name could be found
+  # GIT_PROMPT_SYMBOLS_NO_REMOTE_TRACKING="L" # This symbol is written after the branch, if the branch is not tracked 
+}
+
+reload_git_prompt_colors "Custom"

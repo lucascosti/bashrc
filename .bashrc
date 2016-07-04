@@ -1,53 +1,83 @@
 # .bashrc
-#Lucas colors (also used in bash-git-prompt)
-black="\[\e[0;30m\]"
-darkgray="\[\e[1;30m\]"
-red="\[\e[0;31m\]"
-lightred="\[\e[1;31m\]"
-green="\[\e[0;32m\]"
-lightgreen="\[\e[1;32m\]"
-brown="\[\e[0;33m\]"
-yellow="\[\e[1;33m\]"
-blue="\[\e[0;34m\]"
-lightblue="\[\e[1;34m\]"
-purple="\[\e[0;35m\]"
-lightpurple="\[\e[1;35m\]"
-cyan="\[\e[0;36m\]"
-lightcyan="\[\e[1;36m\]"
-lightgray="\[\e[0;37m\]"
-white="\[\e[1;37m\]"
-normal="\[\e[0;00m\]"
-orange="\[\e[38;5;166m\]"
-lightmagenta="\[\e[38;5;95m\]"
-
-# Normal prompt config (overriden by bash-git-prompt when in git repos)
-PS1="${green}[\u@\h \W] \$${normal} "
-
-# for root, make it red (put this in /root/.bashrc):
-# PS1="${red}[\u@\h \W]#${normal} "
-
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    . /etc/bashrc
 fi
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
-# User specific aliases and functions
 
+######## Lucas' stuff below here ########
+
+# Lucas colors (also used in bash-git-prompt)
+# See http://askubuntu.com/a/558422, http://misc.flogisoft.com/bash/tip_colors_and_formatting for a good list
+## Foreground colours
+normal="\[\e[39m\]"
+black="\[\e[30m\]"
+darkgray="\[\e[90m\]"
+red="\[\e[31m\]"
+lightred="\[\e[91m\]"
+green="\[\e[32m\]"
+lightgreen="\[\e[92m\]"
+yellow="\[\e[33m\]"
+blue="\[\e[34m\]"
+lightblue="\[\e[34m\]"
+brightblue="\[\e[38;5;27m\]"
+stashblue="\[\e[38;5;26m\]"
+purple="\[\e[35m\]"
+lightpurple="\[\e[35m\]"
+maroon="\[\e[38;5;88m\]"
+cyan="\[\e[36m\]"
+lightcyan="\[\e[36m\]"
+lightgray="\[\e[37m\]"
+white="\[\e[37m\]"
+orange="\[\e[38;5;166m\]"
+lightmagenta="\[\e[38;5;95m\]"
+## Background colours
+bg_normal="\[\e[49m\]"
+bg_black="\[\e[40m\]"
+bg_red="\[\e[41m\]"
+bg_green="\[\e[42m\]"
+bg_yellow="\[\e[43m\]"
+bg_blue="\[\e[44m\]"
+bg_magenta="\[\e[45m\]"
+bg_cyan="\[\e[46m\]"
+bg_lgray="\[\e[47m\]"
+bg_gray="\[\e[100m\]"
+bg_lred="\[\e[101m\]"
+bg_lgreen="\[\e[102m\]"
+bg_lyellow="\[\e[103m\]"
+bg_lblue="\[\e[104m\]"
+bg_lmagenta="\[\e[105m\]"
+bg_lcyan="\[\e[106m\]"
+bg_white="\[\e[107m\]"
+
+# set length of pwd
+export PROMPT_DIRTRIM=2
+
+# Normal prompt config (this will be overriden by bash-git-prompt; see below)
+PS1="${green}[\u@\h \W] \$${normal} "
+
+# for root, make it red (put this in /root/.bashrc):
+# PS1="${red}[\u@\h \W]#${normal} "
+
+# Regular aliases
 alias ffs='sudo !!'
+alias sdnfu='sudo dnf update'
+alias sndfi='sudo dnf install'
+alias sdnfr='sudo dnf remove'
 
 # Publican and brew aliases
 alias brewstart="rhpkg publican-build --lang en-US"
 alias cspbuild="csprocessor build"
 alias pubbuild="publican build --langs en-US --formats html-single"
 
-# CCS repo tools
+# CCS repo aliases
 ## Easy grep to exclude build folders. e.g.: ggrep infinispan
 ggrep () { grep "$@" -iR --exclude-dir={build,html}; }
-## Opens a build file
+## Opens a locally-built doc
 alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
 
 # Git
@@ -58,6 +88,7 @@ alias gss='git stash save'
 alias gsp='git stash pop'
 alias ga='git add'
 alias gfu='git fetch upstream'
+alias gfo='git fetch origin'
 alias gr='git rebase upstream/master'
 alias gpom='git push origin master'
 alias gc='git checkout'
@@ -81,10 +112,20 @@ alias gsync='echo "===== 1/3: fetching upstream =====" \
 && gr \
 && echo "===== 3/3: pushing to origin =====" \
 && gpom'
-
 ## Function to take git interactive rebase argument. e.g.: gir 2
 gri() { git rebase -i HEAD~$1; }
 gir() { git rebase -i HEAD~$1; }
+# Function to undo all changes (including stages), back to the last commit (with a confirmation).
+gundoall () {
+  echo "WARNING: This will delete all untracked files, and undo all changes since the last commit."
+  read -r -p "Are you sure? [y/N] " response
+  if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+  then
+    git reset --hard HEAD && git clean -fd
+  else
+      echo "Aborted. Nothing was changed."
+  fi
+}
 
 
 ## git bash completion for aliases
@@ -95,7 +136,7 @@ gir() { git rebase -i HEAD~$1; }
 if [ -f ~/bashscripts/git-completion.bash ]; then
   . ~/bashscripts/git-completion.bash
   
-  # Add git completion to the aliases: you must manually match each of your aliases to the respective method for the git command defined in git-completion.bash.
+  # Add git completion to the aliases: you must manually match each of your aliases to the respective function for the git command defined in git-completion.bash.
   __git_complete g __git_main
   __git_complete gc _git_checkout
   __git_complete gnb _git_checkout
@@ -108,11 +149,14 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
 fi
 
 ## Custom git prompt configuration https://github.com/magicmonty/bash-git-prompt
-   # Set config variables first
-   GIT_PROMPT_ONLY_IN_REPO=1
+if [ -f ~/bashscripts/bash-git-prompt/gitprompt.sh ]; then
 
-   # GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
+  # Set config variables first
+  GIT_PROMPT_ONLY_IN_REPO=0
 
-   # as last entry source the gitprompt script
-   GIT_PROMPT_THEME=Single_line_Lucas # use custom .git-prompt-colors.sh
-source ~/bashscripts/bash-git-prompt/gitprompt.sh
+  # GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
+
+  # as last entry source the gitprompt script
+  GIT_PROMPT_THEME=Lucas_bullettrain_tags # use custom .git-prompt-colors.sh
+  source ~/bashscripts/bash-git-prompt/gitprompt.sh
+fi
