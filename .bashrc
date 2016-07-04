@@ -121,7 +121,10 @@ gundoall () {
   read -r -p "Are you sure? [y/N] " response
   if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
   then
-    git reset --hard HEAD && git clean -fd
+      echo "===== 1/2: git reset --hard HEAD =====" \
+      && git reset --hard HEAD \
+      && echo "===== 2/2: git clean -fd =====" \
+      && git clean -fd
   else
       echo "Aborted. Nothing was changed."
   fi
