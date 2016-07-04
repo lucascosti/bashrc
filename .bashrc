@@ -66,7 +66,7 @@ PS1="${green}[\u@\h \W] \$${normal} "
 # Regular aliases
 alias ffs='sudo !!'
 alias sdnfu='sudo dnf update'
-alias sndfi='sudo dnf install'
+alias sdnfi='sudo dnf install'
 alias sdnfr='sudo dnf remove'
 
 # Publican and brew aliases
@@ -115,7 +115,7 @@ alias gsync='echo "===== 1/3: fetching upstream =====" \
 ## Function to take git interactive rebase argument. e.g.: gir 2
 gri() { git rebase -i HEAD~$1; }
 gir() { git rebase -i HEAD~$1; }
-# Function to undo all changes (including stages), back to the last commit (with a confirmation).
+# Function to undo all changes (including stages) back to the last commit, with a confirmation.
 gundoall () {
   echo "WARNING: This will delete all untracked files, and undo all changes since the last commit."
   read -r -p "Are you sure? [y/N] " response
