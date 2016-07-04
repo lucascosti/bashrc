@@ -8,7 +8,7 @@ I use two additional scripts for easier git usage, both of which are placed in m
 * [`bash-git-prompt`](https://github.com/magicmonty/bash-git-prompt): A very handy bash prompt customisation that shows the status of the repository (things like the current branch, number of staged/modified/untracked files, etc.).
   
   I have also included my custom theme files for the `bash-git-prompt`:
-  * [The most recent one](bashscripts/bash-git-prompt/themes/gitprompt_Lucas_bullettrain_tags.png)  is for a dark background, and is inspired by the [bullet train theme](https://github.com/caiogondim/bullet-train-oh-my-zsh-theme) for `oh-my-zsh`. This theme requires a Powerline patched font.
+  * [The most recent one](bashscripts/bash-git-prompt/themes/Lucas_bullettrain_tags.bgptheme)  is for a dark background, and is inspired by the [bullet train theme](https://github.com/caiogondim/bullet-train-oh-my-zsh-theme) for `oh-my-zsh`. This theme requires a Powerline patched font.
   ![git prompt screenshot](gitprompt_Lucas_bullettrain_tags.png)
   * [The other theme](bashscripts/bash-git-prompt/themes/Single_line_Lucas.bgptheme) , is my original one-line light background theme that I used for a while.
   ![git prompt screenshot](gitprompt.png)
