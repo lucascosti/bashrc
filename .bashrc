@@ -77,6 +77,8 @@ alias pubbuild="publican build --langs en-US --formats html-single"
 # CCS repo aliases
 ## Easy grep to exclude build folders. e.g.: ggrep infinispan
 ggrep () { grep "$@" -iR --exclude-dir={build,html}; }
+# Build a guide when in a guide folder
+alias bg='./buildGuide.sh'
 ## Opens a locally-built doc
 alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
 
@@ -92,7 +94,7 @@ alias gfo='git fetch origin'
 alias gr='git rebase upstream/master'
 alias gpom='git push origin master'
 alias gc='git checkout'
-alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
 alias gd='git diff'
 alias gnewbranch='git checkout -b'
 alias gnb='git checkout -b'
