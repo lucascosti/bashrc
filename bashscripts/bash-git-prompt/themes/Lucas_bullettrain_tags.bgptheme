@@ -1,6 +1,6 @@
 # This is Lucas' take on a bullet-train style bash-git-prompt.sh theme.
-# IMPORTANT: This theme requires a Powerline patched font. You can get them from here: https://github.com/powerline/fonts.
-# I call this theme 'Bullet Train with tags', because there are separate sections that look like 'tags'. (Some sections are separate because it was too difficult to join sections that are not permanent (e.g. the git part) and have proper colouring apply to the arrows joining them).
+# IMPORTANT: This theme requires a Powerline patched font. You can get them from here: https://github.com/powerline/fonts. For the colours used in this theme, see my .bashrc file.
+# I call this theme 'Bullet Train with tags', because there are separate sections that look like 'tags'. (Some sections are separate because it is too difficult to join sections that are not permanent (e.g. the git part) and have proper colouring apply to the arrows joining them).
 # The original Bullet Train oh-my-zsh shell theme that inspired this is here: https://github.com/caiogondim/bullet-train-oh-my-zsh-theme.
 
 override_git_prompt_colors() {
@@ -54,9 +54,9 @@ override_git_prompt_colors() {
       
       INVERT_COLOR=$'\e[7m'
       
-      # INVERTED BG COLOR OF TERMINAL: (i.e. as foreground color) change as needed
-      # for terminator (not compatible with RGB colors): TERM_COLOR=$'\e[38;5;235m'
+      # INVERTED BG COLOR OF TERMINAL: (i.e. when used as a foreground color for powerline arrows) change as needed
       TERM_COLOR=$'\e[38;2;40;44;52m' # 40;44;52 corresponds to RGB values of hex color #282C34
+      # for terminator (not compatible with RGB colors): TERM_COLOR=$'\e[38;5;235m'
       
       # Time part
       LUCAS_PROMPTSTART="${bg_lgray}${black} \$(date +%H:%M) ${lightgray}${bg_blue}${PWRLN_SEP}"
@@ -78,7 +78,7 @@ override_git_prompt_colors() {
       GIT_PROMPT_CHANGED="${bg_yellow} ${maroon}✚"      # the number of changed files
       GIT_PROMPT_STAGED="${bg_yellow} ${brightblue}●"   # the number of staged files/directories
       GIT_PROMPT_CONFLICTS="${bg_yellow} ${Red}✖"       # the number of files in conflict
-      GIT_PROMPT_UNTRACKED="${bg_yellow} ${red}…"       # the number of untracked files/dirs
+      GIT_PROMPT_UNTRACKED="${bg_yellow} ${darkgray}…"  # the number of untracked files/dirs
       GIT_PROMPT_STASHED="${bg_yellow} ${stashblue}⚑"   # the number of stashed files/dir
       ## Suffix (end the tag. Need the background color here because we're not sure what the foreground will be)
       GIT_PROMPT_SUFFIX=" ${INVERT_COLOR}${TERM_COLOR}${PWRLN_SEP}${ResetColor}"

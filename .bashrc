@@ -11,7 +11,7 @@ fi
 
 ######## Lucas' stuff below here ########
 
-# Lucas colors (also used in bash-git-prompt)
+# Lucas colors (mainly used in bash-git-prompt)
 # See http://askubuntu.com/a/558422, http://misc.flogisoft.com/bash/tip_colors_and_formatting for a good list
 ## Foreground colours
 normal="\[\e[39m\]"
@@ -54,7 +54,7 @@ bg_lmagenta="\[\e[105m\]"
 bg_lcyan="\[\e[106m\]"
 bg_white="\[\e[107m\]"
 
-# set length of pwd
+# set length of pwd shown on prompt
 export PROMPT_DIRTRIM=2
 
 # Normal prompt config (this will be overriden by bash-git-prompt; see below)
@@ -88,6 +88,7 @@ alias g='git'
 alias gs='git status'
 alias gss='git stash save'
 alias gsp='git stash pop'
+alias gsl='git stash list'
 alias ga='git add'
 alias gfu='git fetch upstream'
 alias gfo='git fetch origin'
