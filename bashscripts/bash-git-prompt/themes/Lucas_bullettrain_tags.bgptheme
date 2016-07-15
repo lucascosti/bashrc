@@ -77,7 +77,7 @@ override_git_prompt_colors() {
       ## Dirty
       GIT_PROMPT_CHANGED="${bg_yellow} ${maroon}✚"      # the number of changed files
       GIT_PROMPT_STAGED="${bg_yellow} ${brightblue}●"   # the number of staged files/directories
-      GIT_PROMPT_CONFLICTS="${bg_yellow} ${Red}✖"       # the number of files in conflict
+      GIT_PROMPT_CONFLICTS="${bg_yellow} ${red}✖"       # the number of files in conflict
       GIT_PROMPT_UNTRACKED="${bg_yellow} ${darkgray}…"  # the number of untracked files/dirs
       GIT_PROMPT_STASHED="${bg_yellow} ${stashblue}⚑"   # the number of stashed files/dir
       ## Suffix (end the tag. Need the background color here because we're not sure what the foreground will be)

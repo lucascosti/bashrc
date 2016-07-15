@@ -85,27 +85,28 @@ alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
 # Git
 ## Git aliases
 alias g='git'
+alias gfu='git fetch upstream'
+alias gfo='git fetch origin'
+alias gr='git rebase upstream/master'
 alias gs='git status'
+alias gc='git checkout'
+alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
+alias gbranches='git branch -a'
+alias gnb='git checkout -b'
+alias gnewbranch='git checkout -b'
+alias grmbranch='git branch -d'
+alias gd='git diff'
 alias gss='git stash save'
 alias gsp='git stash pop'
 alias gsl='git stash list'
 alias ga='git add'
-alias gfu='git fetch upstream'
-alias gfo='git fetch origin'
-alias gr='git rebase upstream/master'
-alias gpom='git push origin master'
-alias gc='git checkout'
-alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
-alias gd='git diff'
-alias gnewbranch='git checkout -b'
-alias gnb='git checkout -b'
 alias gcom='git commit'
 alias gcommam='git commit -am'
 alias gcomma='git commit -a'
-alias grmbranch='git branch -d'
-alias gbranches='git branch -a'
+alias gm='git merge'
 alias gpoh='git push origin HEAD'
-### This deletes local branches that have been merged and deleted from origin
+alias gpom='git push origin master'
+### This deletes local branches that have been merged and/or deleted from origin
 alias gclean="git remote prune origin; git branch --merged master | grep -v 'master$' | xargs git branch -d"
 alias gdryclean="git remote prune origin --dry-run; git branch --merged master | grep -v 'master$'"
 ### Sync local and origin master from upstream: runs a fetch + rebase + push
@@ -115,10 +116,10 @@ alias gsync='echo "===== 1/3: fetching upstream =====" \
 && gr \
 && echo "===== 3/3: pushing to origin =====" \
 && gpom'
-## Function to take git interactive rebase argument. e.g.: gir 2
+### Function to take git interactive rebase argument. e.g.: gir 2
 gri() { git rebase -i HEAD~$1; }
 gir() { git rebase -i HEAD~$1; }
-# Function to undo all changes (including stages) back to the last commit, with a confirmation.
+### Function to undo all changes (including stages) back to the last commit, with a confirmation.
 gundoall () {
   echo "WARNING: This will delete all untracked files, and undo all changes since the last commit."
   read -r -p "Are you sure? [y/N] " response
@@ -147,7 +148,7 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
   __git_complete gc _git_checkout
   __git_complete gnb _git_checkout
   __git_complete gnewbranch _git_checkout
-  __git_complete gm __git_merge
+  __git_complete gm _git_merge
   __git_complete grmbranch _git_branch
   __git_complete gl _git_log
   __git_complete ga _git_add
@@ -155,8 +156,6 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
 fi
 
 ## Custom git prompt configuration https://github.com/magicmonty/bash-git-prompt
-if [ -f ~/bashscripts/bash-git-prompt/gitprompt.sh ]; then
-
   # Set config variables first
   GIT_PROMPT_ONLY_IN_REPO=0
 
@@ -165,4 +164,3 @@ if [ -f ~/bashscripts/bash-git-prompt/gitprompt.sh ]; then
   # as last entry source the gitprompt script
   GIT_PROMPT_THEME=Lucas_bullettrain_tags # use custom .git-prompt-colors.sh
   source ~/bashscripts/bash-git-prompt/gitprompt.sh
-fi
