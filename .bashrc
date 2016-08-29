@@ -65,9 +65,12 @@ PS1="${green}[\u@\h \W] \$${normal} "
 
 # Regular aliases
 alias ffs='sudo !!'
-alias sdnfu='sudo dnf update'
-alias sdnfi='sudo dnf install'
-alias sdnfr='sudo dnf remove'
+alias sdu='sudo dnf update'
+alias sdur='sudo dnf update --refresh'
+alias sdi='sudo dnf install'
+alias sdr='sudo dnf remove'
+# Color fix for home monitor: see: http://losca.blogspot.com.au/2013/11/workaround-for-setting-full-rgb-when.html
+alias hdmi-color-fix='sh ~/bashscripts/hdmi-colour-fix.sh'
 
 # Publican and brew aliases
 alias brewstart="rhpkg publican-build --lang en-US"
