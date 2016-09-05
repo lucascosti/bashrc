@@ -64,7 +64,7 @@ PS1="${green}[\u@\h \W] \$${normal} "
 # PS1="${red}[\u@\h \W]#${normal} "
 
 # Regular aliases
-alias ffs='sudo !!'
+alias ffs='sudo "$BASH" -c "$(history -p !!)"'
 alias sdnfu='sudo dnf update'
 alias sdnfur='sudo dnf update --refresh'
 alias sdnfi='sudo dnf install'
