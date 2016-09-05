@@ -65,11 +65,11 @@ PS1="${green}[\u@\h \W] \$${normal} "
 
 # Regular aliases
 alias ffs='sudo !!'
-alias sdu='sudo dnf update'
-alias sdur='sudo dnf update --refresh'
-alias sdi='sudo dnf install'
-alias sdr='sudo dnf remove'
-# Color fix for home monitor: see: http://losca.blogspot.com.au/2013/11/workaround-for-setting-full-rgb-when.html
+alias sdnfu='sudo dnf update'
+alias sdnfur='sudo dnf update --refresh'
+alias sdnfi='sudo dnf install'
+alias sdnfr='sudo dnf remove'
+# Color fix for home monitor: see: https://lucascosti.com/blog/2016/08/monitor-colour-problems-over-hdmi/
 alias hdmi-color-fix='sh ~/bashscripts/hdmi-colour-fix.sh'
 
 # Publican and brew aliases
@@ -113,13 +113,19 @@ alias gpom='git push origin master'
 ### This deletes local branches that have been merged and/or deleted from origin
 alias gclean="git remote prune origin; git branch --merged master | grep -v 'master$' | xargs git branch -d"
 alias gdryclean="git remote prune origin --dry-run; git branch --merged master | grep -v 'master$'"
-### Sync local and origin master from upstream: runs a fetch + rebase + push
-alias gsync='echo "===== 1/3: fetching upstream =====" \
-&& gfu \
-&& echo "===== 2/3: rebasing master =====" \
-&& gr \
-&& echo "===== 3/3: pushing to origin =====" \
-&& gpom'
+### Sync local and origin branch from upstream: runs a fetch + rebase + push
+gsync (){
+    local BRANCH=`git rev-parse --abbrev-ref HEAD`
+    echo "Syncing the current branch: $BRANCH"
+    echo "===== 1/3: fetching upstream =====" \
+    && git fetch upstream \
+    && echo "===== 2/3: rebasing $BRANCH =====" \
+    && git rebase upstream/$BRANCH \
+    && echo "===== 3/3: pushing to origin/$BRANCH =====" \
+    && git push origin $BRANCH \
+    && echo "=====" \
+    && echo "Syncing finished."
+}
 ### Function to take git interactive rebase argument. e.g.: gir 2
 gri() { git rebase -i HEAD~$1; }
 gir() { git rebase -i HEAD~$1; }
