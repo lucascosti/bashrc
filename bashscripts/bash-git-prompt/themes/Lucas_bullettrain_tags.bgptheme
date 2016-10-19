@@ -47,53 +47,98 @@ override_git_prompt_colors() {
   # GIT_PROMPT_END_ROOT=" \n${White}${Time12a}${ResetColor} # "
   
   # LUCAS BELOW
-      # For Powerline characters see: echo -e "\ue0a0\ue0a1\ue0a2\ue0b0\ue0b1\ue0b2\ue0b3"
-      # Powerline font downloads: https://github.com/powerline/fonts
-      PWRLN_SEP=$'\ue0b0'
-      PWRLN_BRA=$'\ue0a0'
       
-      INVERT_COLOR=$'\e[7m'
-      
-      # INVERTED BG COLOR OF TERMINAL: (i.e. when used as a foreground color for powerline arrows) change as needed
-      TERM_COLOR=$'\e[38;2;40;44;52m' # 40;44;52 corresponds to RGB values of hex color #282C34
-      # for terminator (not compatible with RGB colors): TERM_COLOR=$'\e[38;5;235m'
-      
-      # Time part
-      LUCAS_PROMPTSTART="${bg_lgray}${black} \$(date +%H:%M) ${lightgray}${bg_blue}${PWRLN_SEP}"
-      
-      # Hide last command if successful, red tag if command failed
-      GIT_PROMPT_COMMAND_OK=""
-      GIT_PROMPT_COMMAND_FAIL="${bg_red}${white} ✘ ${red}${bg_lgray}${PWRLN_SEP}"
-      
-      # Directory part
-      LUCAS_DIR="${bg_blue}${white} \w ${ResetColor}${blue}${PWRLN_SEP}"
-      
-      # Git part
-      GIT_PROMPT_PREFIX="${bg_magenta}${white} ${PWRLN_BRA} "
-      GIT_PROMPT_BRANCH="${bg_magenta}${white}"
-      GIT_PROMPT_SEPARATOR="${bg_magenta} "
-      ## Clean
-      GIT_PROMPT_CLEAN="${bg_green}${white} ✔${green}"
-      ## Dirty
-      GIT_PROMPT_CHANGED="${bg_yellow} ${maroon}✚"      # the number of changed files
-      GIT_PROMPT_STAGED="${bg_yellow} ${brightblue}●"   # the number of staged files/directories
-      GIT_PROMPT_CONFLICTS="${bg_yellow} ${red}✖"       # the number of files in conflict
-      GIT_PROMPT_UNTRACKED="${bg_yellow} ${darkgray}…"  # the number of untracked files/dirs
-      GIT_PROMPT_STASHED="${bg_yellow} ${stashblue}⚑"   # the number of stashed files/dir
-      ## Suffix (end the tag. Need the background color here because we're not sure what the foreground will be)
-      GIT_PROMPT_SUFFIX=" ${INVERT_COLOR}${TERM_COLOR}${PWRLN_SEP}${ResetColor}"
-      
-      # MAIN SECTION
-      GIT_PROMPT_START_USER="\n_LAST_COMMAND_INDICATOR_${LUCAS_PROMPTSTART}${LUCAS_DIR}${ResetColor}"
-      GIT_PROMPT_END_USER="\n${lightgreen}$ ${ResetColor}"
-      
-      # Stuff for root
-      GIT_PROMPT_START_ROOT="\n${bg_black}${red} root ${black}${bg_normal}${PWRLN_SEP} ${GIT_PROMPT_START_USER#'\n'}"
-      GIT_PROMPT_END_ROOT="\n${red}# ${ResetColor}"
-      
-      # Override reset color so the script doesn't do weird things
-      ResetColor=""
-      
+  # Lucas' colors
+  # See http://askubuntu.com/a/558422, http://misc.flogisoft.com/bash/tip_colors_and_formatting for a good list
+  ## Foreground colours
+  normal="\[\e[39m\]"
+  black="\[\e[30m\]"
+  darkgray="\[\e[90m\]"
+  red="\[\e[31m\]"
+  lightred="\[\e[91m\]"
+  green="\[\e[32m\]"
+  lightgreen="\[\e[92m\]"
+  yellow="\[\e[33m\]"
+  blue="\[\e[34m\]"
+  lightblue="\[\e[34m\]"
+  brightblue="\[\e[38;5;27m\]"
+  stashblue="\[\e[38;5;26m\]"
+  purple="\[\e[35m\]"
+  lightpurple="\[\e[35m\]"
+  maroon="\[\e[38;5;88m\]"
+  cyan="\[\e[36m\]"
+  lightcyan="\[\e[36m\]"
+  lightgray="\[\e[37m\]"
+  white="\[\e[37m\]"
+  orange="\[\e[38;5;166m\]"
+  lightmagenta="\[\e[38;5;95m\]"
+  ## Background colours
+  bg_normal="\[\e[49m\]"
+  bg_black="\[\e[40m\]"
+  bg_red="\[\e[41m\]"
+  bg_green="\[\e[42m\]"
+  bg_yellow="\[\e[43m\]"
+  bg_blue="\[\e[44m\]"
+  bg_magenta="\[\e[45m\]"
+  bg_cyan="\[\e[46m\]"
+  bg_lgray="\[\e[47m\]"
+  bg_gray="\[\e[100m\]"
+  bg_lred="\[\e[101m\]"
+  bg_lgreen="\[\e[102m\]"
+  bg_lyellow="\[\e[103m\]"
+  bg_lblue="\[\e[104m\]"
+  bg_lmagenta="\[\e[105m\]"
+  bg_lcyan="\[\e[106m\]"
+  bg_white="\[\e[107m\]"
+  
+  # INVERTED BG COLOR OF TERMINAL: (i.e. when used as a foreground color for powerline arrows) change as needed
+  TERM_COLOR=$'\e[38;2;40;44;52m' # 40;44;52 corresponds to RGB values of hex color #282C34
+  
+  INVERT_COLOR=$'\e[7m'
+  
+  # Powerline characters
+  ## For Powerline characters see: echo -e "\ue0a0\ue0a1\ue0a2\ue0b0\ue0b1\ue0b2\ue0b3"
+  ## Powerline font downloads: https://github.com/powerline/fonts
+  PWRLN_SEP=$'\ue0b0'
+  PWRLN_BRA=$'\ue0a0'
+  
+  
+  # Time part
+  LUCAS_PROMPTSTART="${bg_lgray}${black} \$(date +%H:%M) ${lightgray}${bg_blue}${PWRLN_SEP}"
+  
+  # Hide last command if successful, red tag if command failed
+  GIT_PROMPT_COMMAND_OK=""
+  GIT_PROMPT_COMMAND_FAIL="${bg_red}${white} ✘ ${red}${bg_lgray}${PWRLN_SEP}"
+  
+  # Directory part
+  LUCAS_DIR="${bg_blue}${white} \w ${ResetColor}${blue}${PWRLN_SEP}"
+  
+  # Git part
+  GIT_PROMPT_PREFIX="${bg_magenta}${white} ${PWRLN_BRA} "
+  GIT_PROMPT_BRANCH="${bg_magenta}${white}"
+  GIT_PROMPT_SEPARATOR="${bg_magenta} "
+  ## Clean
+  GIT_PROMPT_CLEAN="${bg_green}${white} ✔${green}"
+  ## Dirty
+  GIT_PROMPT_CHANGED="${bg_yellow} ${maroon}✚"      # the number of changed files
+  GIT_PROMPT_STAGED="${bg_yellow} ${brightblue}●"   # the number of staged files/directories
+  GIT_PROMPT_CONFLICTS="${bg_yellow} ${red}✖"       # the number of files in conflict
+  GIT_PROMPT_UNTRACKED="${bg_yellow} ${darkgray}…"  # the number of untracked files/dirs
+  GIT_PROMPT_STASHED="${bg_yellow} ${stashblue}⚑"   # the number of stashed files/dir
+  ## Suffix (end the tag. Need the background color here because we're not sure what the foreground will be)
+  GIT_PROMPT_SUFFIX=" ${INVERT_COLOR}${TERM_COLOR}${PWRLN_SEP}${ResetColor}"
+  
+  # MAIN SECTION
+  GIT_PROMPT_START_USER="\n_LAST_COMMAND_INDICATOR_${LUCAS_PROMPTSTART}${LUCAS_DIR}${ResetColor}"
+  GIT_PROMPT_END_USER="\n${lightgreen}$ ${ResetColor}"
+  
+  # Stuff for root
+  GIT_PROMPT_START_ROOT="\n${bg_black}${red} root ${black}${bg_normal}${PWRLN_SEP} ${GIT_PROMPT_START_USER#'\n'}"
+  GIT_PROMPT_END_ROOT="\n${red}# ${ResetColor}"
+  
+  # Override reset color so the script doesn't do weird things
+  ResetColor=""
+  
   ## Please do not add colors to these symbols
   # GIT_PROMPT_SYMBOLS_AHEAD="↑·"             # The symbol for "n versions ahead of origin"
   # GIT_PROMPT_SYMBOLS_BEHIND="↓·"            # The symbol for "n versions behind of origin"

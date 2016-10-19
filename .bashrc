@@ -11,53 +11,12 @@ fi
 
 ######## Lucas' stuff below here ########
 
-# Lucas colors (mainly used in bash-git-prompt)
-# See http://askubuntu.com/a/558422, http://misc.flogisoft.com/bash/tip_colors_and_formatting for a good list
-## Foreground colours
-normal="\[\e[39m\]"
-black="\[\e[30m\]"
-darkgray="\[\e[90m\]"
-red="\[\e[31m\]"
-lightred="\[\e[91m\]"
-green="\[\e[32m\]"
-lightgreen="\[\e[92m\]"
-yellow="\[\e[33m\]"
-blue="\[\e[34m\]"
-lightblue="\[\e[34m\]"
-brightblue="\[\e[38;5;27m\]"
-stashblue="\[\e[38;5;26m\]"
-purple="\[\e[35m\]"
-lightpurple="\[\e[35m\]"
-maroon="\[\e[38;5;88m\]"
-cyan="\[\e[36m\]"
-lightcyan="\[\e[36m\]"
-lightgray="\[\e[37m\]"
-white="\[\e[37m\]"
-orange="\[\e[38;5;166m\]"
-lightmagenta="\[\e[38;5;95m\]"
-## Background colours
-bg_normal="\[\e[49m\]"
-bg_black="\[\e[40m\]"
-bg_red="\[\e[41m\]"
-bg_green="\[\e[42m\]"
-bg_yellow="\[\e[43m\]"
-bg_blue="\[\e[44m\]"
-bg_magenta="\[\e[45m\]"
-bg_cyan="\[\e[46m\]"
-bg_lgray="\[\e[47m\]"
-bg_gray="\[\e[100m\]"
-bg_lred="\[\e[101m\]"
-bg_lgreen="\[\e[102m\]"
-bg_lyellow="\[\e[103m\]"
-bg_lblue="\[\e[104m\]"
-bg_lmagenta="\[\e[105m\]"
-bg_lcyan="\[\e[106m\]"
-bg_white="\[\e[107m\]"
-
 # set length of pwd shown on prompt
 export PROMPT_DIRTRIM=2
 
 # Normal prompt config (this will be overriden by bash-git-prompt; see below)
+# For main colours used in the prompt, see the bash-git-prompt theme.
+green="\[\e[32m\]"
 PS1="${green}[\u@\h \W] \$${normal} "
 
 # for root, make it red (put this in /root/.bashrc):
@@ -111,8 +70,8 @@ alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
 ### This deletes local branches that have been merged and/or deleted from origin
-alias gclean="git remote prune origin; git branch --merged master | grep -v 'master$' | xargs git branch -d"
-alias gdryclean="git remote prune origin --dry-run; git branch --merged master | grep -v 'master$'"
+alias gclean="git remote prune origin; git remote prune upstream; git branch --merged master | grep -v 'master$' | xargs git branch -d"
+alias gdryclean="git remote prune origin --dry-run; git remote prune upstream --dry-run; git branch --merged master | grep -v 'master$'"
 ### Sync local and origin branch from upstream: runs a fetch + rebase + push
 gsync (){
     local BRANCH=`git rev-parse --abbrev-ref HEAD`
