@@ -122,6 +122,8 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
   __git_complete gl _git_log
   __git_complete ga _git_add
   __git_complete gd _git_diff
+  __git_complete gcom _git_commit
+  __git_complete gcomma _git_commit
 fi
 
 ## Custom git prompt configuration https://github.com/magicmonty/bash-git-prompt
