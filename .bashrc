@@ -49,7 +49,7 @@ alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
 alias g='git'
 alias gfu='git fetch upstream'
 alias gfo='git fetch origin'
-alias gr='git rebase upstream/master'
+alias gr='git rebase'
 alias gs='git status'
 alias gc='git checkout'
 alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
@@ -119,6 +119,7 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
   __git_complete gnewbranch _git_checkout
   __git_complete gm _git_merge
   __git_complete grmbranch _git_branch
+  __git_complete gr _git_rebase
   __git_complete gl _git_log
   __git_complete ga _git_add
   __git_complete gd _git_diff
