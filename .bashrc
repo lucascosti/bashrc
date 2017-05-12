@@ -66,25 +66,44 @@ alias gaa='git add -A'
 alias gcom='git commit'
 alias gcommam='git add -A && git commit -m'
 alias gcomma='git add -A && git commit'
-alias gcommend='git commit --amend --no-edit'
+alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
-### This deletes local branches that have been merged and/or deleted from origin
-alias gclean="git remote prune origin; git remote prune upstream; git branch --merged master | grep -v 'master$' | xargs git branch -d"
-alias gdryclean="git remote prune origin --dry-run; git remote prune upstream --dry-run; git branch --merged master | grep -v 'master$'"
+### These functions prune references to deleted remote branches, and deletes local branches that have been merged and/or deleted from the remotes.
+### dryclean is a simulation (dry-run), clean actually does the actions.
+gdryclean (){
+  echo "Running a dry clean..."
+  echo "===== 1/3: simulating pruning origin =====" \
+  && git remote prune origin --dry-run \
+  && echo "===== 2/3: simulating pruning upstream =====" \
+  && git remote prune upstream --dry-run \
+  && echo "===== 3/3: simulating cleaning local branches =====" \
+  && git branch --merged master | grep -v 'master$' \
+  && echo "Dry clean finished."
+}
+gclean (){
+  echo "Running a clean..."
+  echo "===== 1/3: pruning origin =====" \
+  && git remote prune origin \
+  && echo "===== 2/3: pruning upstream =====" \
+  && git remote prune upstream \
+  && echo "===== 3/3: cleaning local branches =====" \
+  && git branch --merged master | grep -v 'master$' | xargs git branch -d \
+  && echo "Clean finished."
+}
 ### Sync local and origin branch from upstream: runs a fetch + rebase + push
 gsync (){
-    local BRANCH=`git rev-parse --abbrev-ref HEAD`
-    echo "Syncing the current branch: $BRANCH"
-    echo "===== 1/3: fetching upstream =====" \
-    && git fetch upstream \
-    && echo "===== 2/3: rebasing $BRANCH =====" \
-    && git rebase upstream/$BRANCH \
-    && echo "===== 3/3: pushing to origin/$BRANCH =====" \
-    && git push origin $BRANCH \
-    && echo "=====" \
-    && echo "Syncing finished."
+  local BRANCH=`git rev-parse --abbrev-ref HEAD`
+  echo "Syncing the current branch: $BRANCH"
+  echo "===== 1/3: fetching upstream =====" \
+  && git fetch upstream \
+  && echo "===== 2/3: rebasing $BRANCH =====" \
+  && git rebase upstream/$BRANCH \
+  && echo "===== 3/3: pushing to origin/$BRANCH =====" \
+  && git push origin $BRANCH \
+  && echo "=====" \
+  && echo "Syncing finished."
 }
 ### Function to take git interactive rebase argument. e.g.: gir 2
 gri() { git rebase -i HEAD~$1; }
