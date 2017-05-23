@@ -70,26 +70,28 @@ alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
-### These functions prune references to deleted remote branches, and deletes local branches that have been merged and/or deleted from the remotes.
+### These functions prune references to deleted remote branches, and deletes local branches that have been merged and/or deleted from the remotes. Intended to be run when in a master branch.
 ### dryclean is a simulation (dry-run), clean actually does the actions.
 gdryclean (){
-  echo "Running a dry clean..."
+  local BRANCH=`git rev-parse --abbrev-ref HEAD`
+  echo "Running a dry clean on $BRANCH..."
   echo "===== 1/3: simulating pruning origin =====" \
   && git remote prune origin --dry-run \
   && echo "===== 2/3: simulating pruning upstream =====" \
   && git remote prune upstream --dry-run \
-  && echo "===== 3/3: simulating cleaning local branches =====" \
-  && git branch --merged master | grep -v 'master$' \
+  && echo "===== 3/3: simulating cleaning local branches merged to $BRANCH =====" \
+  && git branch --merged $BRANCH | grep -v "$BRANCH$" \
   && echo "Dry clean finished."
 }
 gclean (){
-  echo "Running a clean..."
+  local BRANCH=`git rev-parse --abbrev-ref HEAD`
+  echo "Running a clean on $BRANCH..."
   echo "===== 1/3: pruning origin =====" \
   && git remote prune origin \
   && echo "===== 2/3: pruning upstream =====" \
   && git remote prune upstream \
-  && echo "===== 3/3: cleaning local branches =====" \
-  && git branch --merged master | grep -v 'master$' | xargs git branch -d \
+  && echo "===== 3/3: cleaning local branches merged to $BRANCH =====" \
+  && git branch --merged $BRANCH | grep -v "$BRANCH$" | xargs git branch -d \
   && echo "Clean finished."
 }
 ### Sync local and origin branch from upstream: runs a fetch + rebase + push
