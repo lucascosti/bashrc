@@ -52,7 +52,7 @@ alias gfo='git fetch origin'
 alias gr='git rebase'
 alias gs='git status'
 alias gc='git checkout'
-alias gl="git log --pretty=format:'%Cblue%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
+alias gl="git log --pretty=format:'%Cblue%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
 alias gbranches='git branch -a'
 alias gnb='git checkout -b'
 alias gnewbranch='git checkout -b'
@@ -81,6 +81,7 @@ gdryclean (){
   && git remote prune upstream --dry-run \
   && echo "===== 3/3: simulating cleaning local branches merged to $BRANCH =====" \
   && git branch --merged $BRANCH | grep -v "$BRANCH$" \
+  && echo "=====" \
   && echo "Dry clean finished."
 }
 gclean (){
@@ -92,6 +93,7 @@ gclean (){
   && git remote prune upstream \
   && echo "===== 3/3: cleaning local branches merged to $BRANCH =====" \
   && git branch --merged $BRANCH | grep -v "$BRANCH$" | xargs git branch -d \
+  && echo "=====" \
   && echo "Clean finished."
 }
 ### Sync local and origin branch from upstream: runs a fetch + rebase + push
