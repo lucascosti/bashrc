@@ -2,7 +2,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
+  . /etc/bashrc
 fi
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
@@ -70,8 +70,10 @@ alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
-### These functions prune references to deleted remote branches, and deletes local branches that have been merged and/or deleted from the remotes. Intended to be run when in a master branch.
-### dryclean is a simulation (dry-run), clean actually does the actions.
+### These functions prune references to deleted remote branches and
+### delete local branches that have been merged and/or deleted from the remotes.
+### Intended to be run when in a master branch.
+### gdryclean is a simulation (dry-run), gclean actually does the actions.
 gdryclean (){
   local BRANCH=`git rev-parse --abbrev-ref HEAD`
   echo "Running a dry clean on $BRANCH..."
@@ -118,12 +120,12 @@ gundoall () {
   read -r -p "Are you sure? [y/N] " response
   if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
   then
-      echo "===== 1/2: git reset --hard HEAD =====" \
-      && git reset --hard HEAD \
-      && echo "===== 2/2: git clean -fd =====" \
-      && git clean -fd
+    echo "===== 1/2: git reset --hard HEAD =====" \
+    && git reset --hard HEAD \
+    && echo "===== 2/2: git clean -fd =====" \
+    && git clean -fd
   else
-      echo "Aborted. Nothing was changed."
+    echo "Aborted. Nothing was changed."
   fi
 }
 
