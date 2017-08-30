@@ -39,10 +39,12 @@ alias pubbuild="publican build --langs en-US --formats html-single"
 # CCS repo aliases
 ## Easy grep to exclude build folders. e.g.: ggrep infinispan
 ggrep () { grep "$@" -iR --exclude-dir={build,html}; }
-# Build a guide when in a guide folder
+## Build a guide when in a guide folder
 alias bg='./buildGuide.sh'
 ## Opens a locally-built doc
 alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
+## Do both of the above in one command
+alias bgp="bg && previewdoc"
 
 # Git
 ## Git aliases
@@ -122,8 +124,8 @@ gundoall () {
   then
     echo "===== 1/2: git reset --hard HEAD =====" \
     && git reset --hard HEAD \
-    && echo "===== 2/2: git clean -fd =====" \
-    && git clean -fd
+    && echo "===== 2/2: git clean -fd \$(git rev-parse --show-toplevel) =====" \
+    && git clean -fd $(git rev-parse --show-toplevel)
   else
     echo "Aborted. Nothing was changed."
   fi
