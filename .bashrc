@@ -72,13 +72,21 @@ alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
-### These functions prune references to deleted remote branches and
+### This function prunes references to deleted remote branches and
 ### delete local branches that have been merged and/or deleted from the remotes.
-### Intended to be run when in a master branch.
-### gdryclean is a simulation (dry-run), gclean actually does the actions.
-gdryclean (){
+### Intended to be run when in a master branch. Warns when isn't.
+gclean (){
   local BRANCH=`git rev-parse --abbrev-ref HEAD`
-  echo "Running a dry clean on $BRANCH..."
+  # Warning if not on a master* branch
+  if [[ $BRANCH != master* ]]
+  then
+    echo -e "\e[91m!! WARNING: You are not on a master branch !!\e[39m"
+    read -r -p "Are you sure you want to continue? [y/N] " response
+    if ! [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+    then
+      return 1
+    fi
+  fi
   echo "===== 1/3: simulating pruning origin =====" \
   && git remote prune origin --dry-run \
   && echo "===== 2/3: simulating pruning upstream =====" \
@@ -86,19 +94,22 @@ gdryclean (){
   && echo "===== 3/3: simulating cleaning local branches merged to $BRANCH =====" \
   && git branch --merged $BRANCH | grep -v "$BRANCH$" \
   && echo "=====" \
-  && echo "Dry clean finished."
-}
-gclean (){
-  local BRANCH=`git rev-parse --abbrev-ref HEAD`
-  echo "Running a clean on $BRANCH..."
-  echo "===== 1/3: pruning origin =====" \
-  && git remote prune origin \
-  && echo "===== 2/3: pruning upstream =====" \
-  && git remote prune upstream \
-  && echo "===== 3/3: cleaning local branches merged to $BRANCH =====" \
-  && git branch --merged $BRANCH | grep -v "$BRANCH$" | xargs git branch -d \
-  && echo "=====" \
-  && echo "Clean finished."
+  && echo "Simulation complete."
+  read -r -p "Do you want to proceed with the above clean? [y/N] " response
+  if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+  then
+    echo "Running a clean on $BRANCH..."
+    echo "===== 1/3: pruning origin =====" \
+    && git remote prune origin \
+    && echo "===== 2/3: pruning upstream =====" \
+    && git remote prune upstream \
+    && echo "===== 3/3: cleaning local branches merged to $BRANCH =====" \
+    && git branch --merged $BRANCH | grep -v "$BRANCH$" | xargs git branch -d \
+    && echo "=====" \
+    && echo "Clean finished."
+  else
+    echo "Aborted. Nothing was changed."
+  fi
 }
 ### Sync local and origin branch from upstream: runs a fetch + rebase + push
 gsync (){
