@@ -72,6 +72,7 @@ alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
+alias gcd='cd ~/repos/'
 ### This function prunes references to deleted remote branches and
 ### delete local branches that have been merged and/or deleted from the remotes.
 ### Intended to be run when in a master branch. Warns when isn't.
@@ -80,14 +81,16 @@ gclean (){
   # Warning if not on a master* branch
   if [[ $BRANCH != master* ]]
   then
-    echo -e "\e[91m!! WARNING: You are not on a master branch !!\e[39m"
+    echo -e "\e[91m!! WARNING: It looks like you are not on a master branch !!\e[39m"
     read -r -p "Are you sure you want to continue? [y/N] " response
     if ! [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
     then
+      echo "Aborted. Nothing was changed."
       return 1
     fi
   fi
-  echo "===== 1/3: simulating pruning origin =====" \
+  echo "Simulating a clean on $BRANCH ..." \
+  && echo "===== 1/3: simulating pruning origin =====" \
   && git remote prune origin --dry-run \
   && echo "===== 2/3: simulating pruning upstream =====" \
   && git remote prune upstream --dry-run \
@@ -98,7 +101,7 @@ gclean (){
   read -r -p "Do you want to proceed with the above clean? [y/N] " response
   if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
   then
-    echo "Running a clean on $BRANCH..."
+    echo "Running a clean on $BRANCH ..."
     echo "===== 1/3: pruning origin =====" \
     && git remote prune origin \
     && echo "===== 2/3: pruning upstream =====" \
