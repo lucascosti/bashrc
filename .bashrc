@@ -174,6 +174,9 @@ fi
   GIT_PROMPT_ONLY_IN_REPO=0
 
   # GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
+  
+  # Lucas: change fetch interval to 60 minutes (default is 5)
+  GIT_PROMPT_FETCH_TIMEOUT=60
 
   # as last entry source the gitprompt script
   GIT_PROMPT_THEME=Lucas_bullettrain_tags # use custom .git-prompt-colors.sh
