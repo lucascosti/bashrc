@@ -73,6 +73,8 @@ alias gm='git merge'
 alias gpoh='git push origin HEAD'
 alias gpom='git push origin master'
 alias gcd='cd ~/repos/'
+### From https://docs.gitlab.com/ee/user/project/merge_requests/#checkout-merge-requests-locally :
+gcmr() { git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2; }
 ### This function prunes references to deleted remote branches and
 ### delete local branches that have been merged and/or deleted from the remotes.
 ### Intended to be run when in a master branch. Warns when isn't.
@@ -167,6 +169,7 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
   __git_complete gd _git_diff
   __git_complete gcom _git_commit
   __git_complete gcomma _git_commit
+  __git_complete gcmr _git_ls_remote
 fi
 
 ## Custom git prompt configuration https://github.com/magicmonty/bash-git-prompt
