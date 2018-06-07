@@ -31,10 +31,12 @@ alias sdnfr='sudo dnf remove'
 # Color fix for home monitor: see: https://lucascosti.com/blog/2016/08/monitor-colour-problems-over-hdmi/
 alias hdmi-color-fix='sh ~/bashscripts/hdmi-colour-fix.sh'
 
-# Publican and brew aliases
+# Build aliases
 alias brewstart="rhpkg publican-build --lang en-US"
 alias cspbuild="csprocessor build"
 alias pubbuild="publican build --langs en-US --formats html-single"
+alias mvnbuildeap='mvn clean install -DskipTests -Denforcer.skip=true -Dcheckstyle.skip=true -T2 -Dwildfly.skip=true'
+alias mvnbuildwildfly='mvn clean install -DskipTests'
 
 # CCS repo aliases
 ## Easy grep to exclude build folders. e.g.: ggrep infinispan
@@ -70,14 +72,14 @@ alias gcommam='git add -A && git commit -m'
 alias gcomma='git add -A && git commit'
 alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
+alias gcp='git cherry-pick'
 alias gpoh='git push origin HEAD'
-alias gpom='git push origin master'
 alias gcd='cd ~/repos/'
-### From https://docs.gitlab.com/ee/user/project/merge_requests/#checkout-merge-requests-locally :
+### From https://docs.gitlab.com/ee/user/project/merge_requests/#checkout-merge-requests-locally : e.g. gcmr upstream 12345
 gcmr() { git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2; }
 ### This function prunes references to deleted remote branches and
-### delete local branches that have been merged and/or deleted from the remotes.
-### Intended to be run when in a master branch. Warns when isn't.
+### deletes local branches that have been merged and/or deleted from the remotes.
+### It is intended to be run when on a master branch, and warns when it isn't.
 gclean (){
   local BRANCH=`git rev-parse --abbrev-ref HEAD`
   # Warning if not on a master* branch
@@ -155,7 +157,7 @@ gundoall () {
 # 2) Add the following lines to your .bash_profile, be sure to reload (for example: source ~/.bash_profile) for the changes to take effect:
 if [ -f ~/bashscripts/git-completion.bash ]; then
   . ~/bashscripts/git-completion.bash
-  
+
   # Add git completion to the aliases: you must manually match each of your aliases to the respective function for the git command defined in git-completion.bash.
   __git_complete g __git_main
   __git_complete gc _git_checkout
@@ -177,7 +179,7 @@ fi
   GIT_PROMPT_ONLY_IN_REPO=0
 
   # GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
-  
+
   # Lucas: change fetch interval to 60 minutes (default is 5)
   GIT_PROMPT_FETCH_TIMEOUT=60
 
