@@ -99,7 +99,7 @@ gclean (){
   && echo "===== 2/3: simulating pruning upstream =====" \
   && git remote prune upstream --dry-run \
   && echo "===== 3/3: simulating cleaning local branches merged to $BRANCH =====" \
-  && git branch --merged $BRANCH | grep -v "$BRANCH$" \
+  && git branch --merged $BRANCH | grep -v "^\**\s*master"  \
   && echo "=====" \
   && echo "Simulation complete."
   read -r -p "Do you want to proceed with the above clean? [y/N] " response
@@ -111,7 +111,7 @@ gclean (){
     && echo "===== 2/3: pruning upstream =====" \
     && git remote prune upstream \
     && echo "===== 3/3: cleaning local branches merged to $BRANCH =====" \
-    && git branch --merged $BRANCH | grep -v "$BRANCH$" | xargs git branch -d \
+    && git branch --merged $BRANCH | grep -v "^\**\s*master" | xargs git branch -d \
     && echo "=====" \
     && echo "Clean finished."
   else
