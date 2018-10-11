@@ -5,10 +5,6 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
-
-
 ######## Lucas' stuff below here ########
 
 # set length of pwd shown on prompt
@@ -118,7 +114,7 @@ gclean (){
     echo "Aborted. Nothing was changed."
   fi
 }
-### Sync local and origin branch from upstream: runs a fetch + rebase + push
+### Sync local and origin branch from upstream: runs a fetch from upstream + rebase local + push to origin
 gsync (){
   local BRANCH=`git rev-parse --abbrev-ref HEAD`
   echo "Syncing the current branch: $BRANCH"
