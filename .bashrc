@@ -20,29 +20,11 @@ PS1="${green}[\u@\h \W] \$${normal} "
 
 # Regular aliases
 alias ffs='sudo "$BASH" -c "$(history -p !!)"'
-alias sdnfu='sudo dnf update'
-alias sdnfur='sudo dnf update --refresh'
-alias sdnfi='sudo dnf install'
-alias sdnfr='sudo dnf remove'
+alias bi='brew install'
+alias br='brew uninstall'
+alias bu='brew update'
 # Color fix for home monitor: see: https://lucascosti.com/blog/2016/08/monitor-colour-problems-over-hdmi/
 alias hdmi-color-fix='sh ~/bashscripts/hdmi-colour-fix.sh'
-
-# Build aliases
-alias brewstart="rhpkg publican-build --lang en-US"
-alias cspbuild="csprocessor build"
-alias pubbuild="publican build --langs en-US --formats html-single"
-alias mvnbuildeap='mvn clean install -DskipTests -Denforcer.skip=true -Dcheckstyle.skip=true -T2 -Dwildfly.skip=true'
-alias mvnbuildwildfly='mvn clean install -DskipTests'
-
-# CCS repo aliases
-## Easy grep to exclude build folders. e.g.: ggrep infinispan
-ggrep () { grep "$@" -iR --exclude-dir={build,html}; }
-## Build a guide when in a guide folder
-alias bg='./buildGuide.sh'
-## Opens a locally-built doc
-alias previewdoc="firefox build/tmp/en-US/html-single/index.html"
-## Do both of the above in one command
-alias bgp="bg && previewdoc"
 
 # Git
 ## Git aliases
@@ -50,6 +32,7 @@ alias g='git'
 alias gfu='git fetch upstream'
 alias gfo='git fetch origin'
 alias gr='git rebase'
+alias gpull='git pull'
 alias gs='git status'
 alias gc='git checkout'
 alias gl="git log --pretty=format:'%Cblue%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=relative"
@@ -182,3 +165,8 @@ fi
   # as last entry source the gitprompt script
   GIT_PROMPT_THEME=Lucas_bullettrain_tags # use custom .git-prompt-colors.sh
   source ~/bashscripts/bash-git-prompt/gitprompt.sh
+  
+#########
+# Required for GitHub docs builds bootstrap
+eval "$(rbenv init -)"
+eval "$(nodenv init -)"
