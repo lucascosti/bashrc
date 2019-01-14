@@ -2,6 +2,8 @@
 
 This is [my `.bashrc` file](.bashrc). Feel free to clone/copy and reuse as you like.
 
+**NOTE**: Since commit [4ffd872](https://github.com/lucascosti/bashrc/commit/34f13a030692e524dacdad455fe5b282e4ffd872), my `.bashrc` file is used on my work Macbook (and thus the older version of bash that MacOS uses). The last commit that I used on Linux was [06c5849](https://github.com/lucascosti/bashrc/commit/fb3ce2b0c2193d27c20a6c4cb64bb443506c5849).
+
 I use two additional scripts for easier git usage, both of which are placed in my `~/bashscripts` directory. You can download/clone these scripts from their original repositories (linked below).
 
 * [`git-completion.bash`](https://github.com/git/git/blob/master/contrib/completion/git-completion.bash): This enables git auto-completion on my git aliases. This allows me to press the `tab` key after entering a git alias to auto-complete things, such as branch names.
