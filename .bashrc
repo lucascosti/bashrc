@@ -73,11 +73,9 @@ gclean (){
     fi
   fi
   echo "Simulating a clean on $BRANCH ..." \
-  && echo "===== 1/3: simulating pruning origin =====" \
+  && echo "===== 1/2: simulating pruning origin =====" \
   && git remote prune origin --dry-run \
-  && echo "===== 2/3: simulating pruning upstream =====" \
-  && git remote prune upstream --dry-run \
-  && echo "===== 3/3: simulating cleaning local branches merged to $BRANCH =====" \
+  && echo "===== 2/2: simulating cleaning local branches merged to $BRANCH =====" \
   && git branch --merged $BRANCH | grep -v "^\**\s*master"  \
   && echo "=====" \
   && echo "Simulation complete."
@@ -85,11 +83,9 @@ gclean (){
   if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
   then
     echo "Running a clean on $BRANCH ..."
-    echo "===== 1/3: pruning origin =====" \
+    echo "===== 1/2: pruning origin =====" \
     && git remote prune origin \
-    && echo "===== 2/3: pruning upstream =====" \
-    && git remote prune upstream \
-    && echo "===== 3/3: cleaning local branches merged to $BRANCH =====" \
+    && echo "===== 2/2: cleaning local branches merged to $BRANCH =====" \
     && git branch --merged $BRANCH | grep -v "^\**\s*master" | xargs git branch -d \
     && echo "=====" \
     && echo "Clean finished."
@@ -97,14 +93,14 @@ gclean (){
     echo "Aborted. Nothing was changed."
   fi
 }
-### Sync local and origin branch from upstream: runs a fetch from upstream + rebase local + push to origin
+### Sync local and origin branch from a remote: runs a fetch from specified remote + rebase local + push to origin
 gsync (){
   local BRANCH=`git rev-parse --abbrev-ref HEAD`
   echo "Syncing the current branch: $BRANCH"
-  echo "===== 1/3: fetching upstream =====" \
-  && git fetch upstream \
+  echo "===== 1/3: fetching $1 =====" \
+  && git fetch $1 \
   && echo "===== 2/3: rebasing $BRANCH =====" \
-  && git rebase upstream/$BRANCH \
+  && git rebase $1/$BRANCH \
   && echo "===== 3/3: pushing to origin/$BRANCH =====" \
   && git push origin $BRANCH \
   && echo "=====" \
@@ -151,6 +147,8 @@ if [ -f ~/bashscripts/git-completion.bash ]; then
   __git_complete gcom _git_commit
   __git_complete gcomma _git_commit
   __git_complete gcmr _git_ls_remote
+  __git_complete gpull _git_pull
+  __git_complete gsync _git_fetch
 fi
 
 ## Custom git prompt configuration https://github.com/magicmonty/bash-git-prompt
@@ -170,3 +168,20 @@ fi
 # Required for GitHub docs builds bootstrap
 eval "$(rbenv init -)"
 eval "$(nodenv init -)"
+
+# Build GitHub dev docs
+alias bcurrent='script/server'
+# Runs a backport then a build. 
+bbackport() {
+  # if there a no arguments, build all versions. For one or more specified versions as arguments, build those specified.
+  if [ -z "$1" ]
+    then
+      versions=( 2.16 2.15 2.14 2.13 )
+    else
+      versions=( "$@" )
+  fi
+  for v in "${versions[@]}"
+    do script/enterprise-backport $v
+  done
+  bcurrent
+}
