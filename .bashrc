@@ -53,6 +53,7 @@ alias gcommend='git add -A && git commit --amend --no-edit'
 alias gm='git merge'
 alias gcp='git cherry-pick'
 alias gpoh='git push origin HEAD'
+alias grom='git rebase origin/master'
 alias gcd='cd ~/repos/'
 ### From https://docs.gitlab.com/ee/user/project/merge_requests/#checkout-merge-requests-locally : e.g. gcmr upstream 12345
 gcmr() { git fetch $1 merge-requests/$2/head:mr-$1-$2 && git checkout mr-$1-$2; }
