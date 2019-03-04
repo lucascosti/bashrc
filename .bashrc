@@ -94,8 +94,21 @@ gclean (){
     echo "Aborted. Nothing was changed."
   fi
 }
-### Sync local and origin branch from a remote: runs a fetch from specified remote + rebase local + push to origin
+### Sync function for my current workflow, which only has a remote origin.
+### Fetches origin and rebases current branch from origin.
 gsync (){
+  local BRANCH=`git rev-parse --abbrev-ref HEAD`
+  echo "Syncing the current branch: $BRANCH"
+  echo "===== 1/2: fetching origin =====" \
+  && git fetch origin \
+  && echo "===== 2/2: rebasing $BRANCH =====" \
+  && git rebase origin/$BRANCH \
+  && echo "=====" \
+  && echo "Syncing finished."
+}
+### Sync function for my previous workflow, which had upstream+originfork+local.
+### Syncs local and origin branch from a remote: runs a fetch from specified remote + rebase local + push to origin.
+OLDgsync (){
   local BRANCH=`git rev-parse --abbrev-ref HEAD`
   echo "Syncing the current branch: $BRANCH"
   echo "===== 1/3: fetching $1 =====" \
