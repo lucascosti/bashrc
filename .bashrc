@@ -190,7 +190,7 @@ bbackport() {
   # if there a no arguments, build all versions. For one or more specified versions as arguments, build those specified.
   if [ -z "$1" ]
     then
-      versions=( 2.16 2.15 2.14 2.13 )
+      versions=( 2.17 2.16 2.15 2.14 )
     else
       versions=( "$@" )
   fi
